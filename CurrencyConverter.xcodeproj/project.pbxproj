@@ -11,7 +11,6 @@
 		B51B24EB1D50DEA400A68AC4 /* CurrencyContainerBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51B24EA1D50DEA400A68AC4 /* CurrencyContainerBuilder.swift */; };
 		B51B24ED1D50E01A00A68AC4 /* CurrencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51B24EC1D50E01A00A68AC4 /* CurrencyContainer.swift */; };
 		B51B24EF1D50E04500A68AC4 /* Rate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51B24EE1D50E04500A68AC4 /* Rate.swift */; };
-		B543563D1D55F5F9007185A4 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = B543563C1D55F5F9007185A4 /* README.md */; };
 		B54BAD541D4F7C86004C3C87 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54BAD531D4F7C86004C3C87 /* AppDelegate.swift */; };
 		B54BAD561D4F7C86004C3C87 /* CurrencyListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54BAD551D4F7C86004C3C87 /* CurrencyListViewController.swift */; };
 		B54BAD591D4F7C86004C3C87 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B54BAD571D4F7C86004C3C87 /* Main.storyboard */; };
@@ -233,7 +232,6 @@
 				B54BAD561D4F7C86004C3C87 /* CurrencyListViewController.swift in Sources */,
 				B51B24EB1D50DEA400A68AC4 /* CurrencyContainerBuilder.swift in Sources */,
 				B565A96A1D53B3F400B22201 /* DigitalFilter.swift in Sources */,
-				B543563D1D55F5F9007185A4 /* README.md in Sources */,
 				B54BAD541D4F7C86004C3C87 /* AppDelegate.swift in Sources */,
 				B51B24ED1D50E01A00A68AC4 /* CurrencyContainer.swift in Sources */,
 				B54BAD691D4F8962004C3C87 /* RequestBuilder.swift in Sources */,

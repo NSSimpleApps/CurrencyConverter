@@ -33,7 +33,26 @@ class CurrencyListViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return self.currencyContainer.currencyList.count
+        let count = self.currencyContainer.currencyList.count
+        
+        if count == 0 {
+            
+            let label = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 30))
+            label.text = "No data"
+            label.textColor = UIColor.blackColor()
+            label.numberOfLines = 1
+            label.textAlignment = .Center
+            label.sizeToFit()
+            
+            tableView.backgroundView = label
+            tableView.separatorStyle = .None
+            
+        } else {
+            
+            self.tableView.separatorStyle = .SingleLine
+        }
+        
+        return count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
