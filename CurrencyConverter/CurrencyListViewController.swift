@@ -85,24 +85,30 @@ class CurrencyListViewController: UITableViewController {
         
         CurrencyDataProvider.GET("http://api.fixer.io/latest",
                                  parameters: parameters,
-                                 completionBlock: { (currencyContainer) in
+                                 completionBlock: { [weak self] (currencyContainer) in
                                     
-                                    self.navigationItem.rightBarButtonItem?.enabled = true
-                                    self.navigationItem.rightBarButtonItem?.title = currencyContainer.baseCurrency
-                                    self.currencyContainer = currencyContainer
-                                    self.tableView.reloadData()
-                                    
-                                    sender.enabled = true
-        }) { (error) in
+                                    if let sSelf = self {
+                                        
+                                        sSelf.navigationItem.rightBarButtonItem?.enabled = true
+                                        sSelf.navigationItem.rightBarButtonItem?.title = currencyContainer.baseCurrency
+                                        sSelf.currencyContainer = currencyContainer
+                                        sSelf.tableView.reloadData()
+                                        
+                                        sender.enabled = true
+                                    }
+        }) { [weak self] (error) in
             
-            let alertController =
-                UIAlertController(title: error.localizedDescription, cancelTitle: "Close")
-            
-            self.presentViewController(alertController, animated: true, completion: {
+            if let sSelf = self {
                 
-                self.navigationItem.rightBarButtonItem?.enabled = true
-                sender.enabled = true
-            })
+                let alertController =
+                    UIAlertController(title: error.localizedDescription, cancelTitle: "Close")
+                
+                sSelf.presentViewController(alertController, animated: true, completion: {
+                    
+                    sSelf.navigationItem.rightBarButtonItem?.enabled = true
+                    sender.enabled = true
+                })
+            }
         }
     }
     
