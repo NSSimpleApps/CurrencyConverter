@@ -12,38 +12,38 @@ import Foundation
 /// обрабатывает ошибки и выполняет блоки в главном потоке
 class CurrencyDataProvider: NSObject {
     
-    class func GET(URLString: String,
+    class func GET(_ URLString: String,
                    parameters: [String: String?],
-                   completionBlock: (currencyContainer: CurrencyContainer) -> Void,
-                   errorBlock: ((error: NSError) -> Void)?) {
+                   completionBlock: @escaping (_ currencyContainer: CurrencyContainer) -> Void,
+                   errorBlock: ((_ error: Error) -> Void)?) {
         
         NetDataProvider.GET(URLString,
                             parameters: parameters,
-                            completionBlock: { (data: NSData) in
+                            completionBlock: { (data: Data) in
                                 
                                 do {
                                     
                                     let currencyContainer =
                                         try CurrencyContainerBuilder.currencyContainer(with: data)
                                     
-                                    dispatch_async(dispatch_get_main_queue(), {
+                                    DispatchQueue.main.async(execute: {
                                         
-                                        completionBlock(currencyContainer: currencyContainer)
+                                        completionBlock(currencyContainer)
                                     })
                                     
                                 } catch let error as NSError {
                                     
-                                    dispatch_async(dispatch_get_main_queue(), {
+                                    DispatchQueue.main.async(execute: {
                                         
-                                        errorBlock?(error: error)
+                                        errorBlock?(error)
                                     })
                                 }
                                 
-        }) { (error: NSError) in
+        }) { (error: Error) in
                 
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async(execute: {
                     
-                    errorBlock?(error: error)
+                    errorBlock?(error)
                 })
         }
     }

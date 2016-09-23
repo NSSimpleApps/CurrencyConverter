@@ -14,11 +14,11 @@ private let RatesKey = "rates"
 /// строит из NSData объект класса CurrencyContainer
 class CurrencyContainerBuilder: NSObject {
     
-    class func currencyContainer(with data: NSData) throws -> CurrencyContainer {
+    class func currencyContainer(with data: Data) throws -> CurrencyContainer {
         
         if let dict =
-        try NSJSONSerialization.JSONObjectWithData(data,
-                                                   options: .AllowFragments) as? [String : AnyObject] {
+        try JSONSerialization.jsonObject(with: data,
+                                                   options: .allowFragments) as? [String : AnyObject] {
             
             if let baseCurrency = dict[BaseKey] as? String, let rates = dict[RatesKey] as? [String: Float] {
                 

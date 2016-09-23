@@ -10,10 +10,10 @@ import UIKit
 
 protocol DigitalFilterDelegate: class {
     
-    func digitalFilter(digitalFilter: DigitalFilter,
+    func digitalFilter(_ digitalFilter: DigitalFilter,
                        shouldChangeDigitalString string: String) -> Bool
     
-    func digitalFilter(digitalFilter: DigitalFilter,
+    func digitalFilter(_ digitalFilter: DigitalFilter,
                        textFieldShouldReturn textField: UITextField) -> Bool
 }
 
@@ -43,7 +43,7 @@ class DigitalFilter: NSObject, UITextFieldDelegate {
         ({ self.textField = textField })()
     }
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         let stringToReplace = self.stringToReplace(textField.text, string: string, range: range)
         
@@ -59,7 +59,7 @@ class DigitalFilter: NSObject, UITextFieldDelegate {
         }
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         if let shouldReturn = self.delegate?.digitalFilter(self, textFieldShouldReturn: textField) {
             
@@ -69,11 +69,11 @@ class DigitalFilter: NSObject, UITextFieldDelegate {
         return false
     }
     
-    private func stringToReplace(text: String?, string: String, range: NSRange) -> String {
+    fileprivate func stringToReplace(_ text: String?, string: String, range: NSRange) -> String {
         
         if let text = text {
             
-            return (text as NSString).stringByReplacingCharactersInRange(range, withString: string)
+            return (text as NSString).replacingCharacters(in: range, with: string)
             
         } else {
             
@@ -81,12 +81,12 @@ class DigitalFilter: NSObject, UITextFieldDelegate {
         }
     }
     
-    private func testString(string: String) -> Bool {
+    fileprivate func testString(_ string: String) -> Bool {
         
         let regex = "\\d*(\\.)?\\d{0,2}"
         
         let predicate = NSPredicate(format: "SELF MATCHES %@", regex)
         
-        return predicate.evaluateWithObject(string)
+        return predicate.evaluate(with: string)
     }
 }

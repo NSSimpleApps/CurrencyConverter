@@ -12,33 +12,33 @@ import Foundation
 /// строится из базовой строки и параметров
 class NetDataProvider: NSObject {
     
-    class func GET(URLString: String,
+    class func GET(_ URLString: String,
                    parameters: [String: String?],
-                   completionBlock: (data: NSData) -> Void,
-                   errorBlock: ((error: NSError) -> Void)?) {
+                   completionBlock: @escaping (_ data: Data) -> Void,
+                   errorBlock: ((_ error: Error) -> Void)?) {
         
         let requestBuilder = RequestBuilder(string: URLString)
         
-        if let URL = requestBuilder.URL(with: parameters) {
+        if let url = requestBuilder.url(with: parameters) {
             
-            let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
-            configuration.HTTPAdditionalHeaders = ["Content-Type": "application/json"]
+            let configuration = URLSessionConfiguration.default
+            configuration.httpAdditionalHeaders = ["Content-Type": "application/json"]
             
-            let URLSession = NSURLSession(configuration: configuration)
+            let urlSession = URLSession(configuration: configuration)
             
-            let URLSessionDataTask =
-                URLSession.dataTaskWithURL(URL) { (data: NSData?, URLResponse: NSURLResponse?, error: NSError?) -> Void in
+            let urlSessionDataTask =
+                urlSession.dataTask(with: url, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
                     
                     if error == nil && data != nil {
                         
-                        completionBlock(data: data!)
+                        completionBlock(data!)
                         
                     } else {
                         
-                        errorBlock?(error: error!)
+                        errorBlock?(error!)
                     }
-            }
-            URLSessionDataTask.resume()
+            }) 
+            urlSessionDataTask.resume()
             
         } else {
             
@@ -47,7 +47,7 @@ class NetDataProvider: NSObject {
                         code: 999,
                         userInfo: [NSLocalizedDescriptionKey: "URL-string you proposed is incorrect"])
             
-            errorBlock?(error: error)
+            errorBlock?(error)
         }
     }
 }

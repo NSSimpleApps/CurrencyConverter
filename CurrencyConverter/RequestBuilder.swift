@@ -11,29 +11,29 @@ import Foundation
 /// строит из базовой строки и параметров NSURL
 class RequestBuilder: NSObject {
     
-    var URL: NSURL?
+    var url: URL?
     
     init(string: String) {
         
         super.init()
         
-        self.URL = NSURL(string: string)
+        self.url = URL(string: string)
     }
     
-    func URL(with parameters: [String: String?]) -> NSURL? {
+    func url(with parameters: [String: String?]) -> URL? {
         
-        guard let URL = self.URL else { return nil }
+        guard let url = self.url else { return nil }
         
-        var queryItems: [NSURLQueryItem] = []
+        var queryItems: [URLQueryItem] = []
         
         for (name, value) in parameters {
             
-            queryItems.append(NSURLQueryItem(name: name, value: value))
+            queryItems.append(URLQueryItem(name: name, value: value))
         }
         
-        let components = NSURLComponents(URL: URL, resolvingAgainstBaseURL: true)
+        var components = URLComponents(url: url, resolvingAgainstBaseURL: true)
         components?.queryItems = queryItems
         
-        return components?.URL
+        return components?.url
     }
 }

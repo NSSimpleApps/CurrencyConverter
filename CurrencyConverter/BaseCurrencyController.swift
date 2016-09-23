@@ -29,7 +29,7 @@ class SelectBaseCurrencyController: UITableViewController {
         self.tableView.registerCell(for: CurrencyCell.self)
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         let count = self.currencyList.count
         
@@ -37,73 +37,73 @@ class SelectBaseCurrencyController: UITableViewController {
             
             let label = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 30))
             label.text = "No data"
-            label.textColor = UIColor.blackColor()
+            label.textColor = UIColor.black
             label.numberOfLines = 1
-            label.textAlignment = .Center
+            label.textAlignment = .center
             label.sizeToFit()
             
             tableView.backgroundView = label
-            tableView.separatorStyle = .None
+            tableView.separatorStyle = .none
             
         } else {
             
-            self.tableView.separatorStyle = .SingleLine
+            self.tableView.separatorStyle = .singleLine
         }
         
         return count
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let row = indexPath.row
+        let row = (indexPath as NSIndexPath).row
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(String(CurrencyCell),
-                                                               forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: CurrencyCell.self),
+                                                               for: indexPath)
         cell.textLabel?.text = self.currencyList[row]
         cell.detailTextLabel?.text = nil
         
         if row == self.selectedIndex {
             
-            cell.accessoryType = .Checkmark
+            cell.accessoryType = .checkmark
             
         } else {
             
-            cell.accessoryType = .None
+            cell.accessoryType = .none
         }
         
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let row = indexPath.row
+        let row = (indexPath as NSIndexPath).row
         
-        if let selectedIndex = self.selectedIndex where row != selectedIndex {
+        if let selectedIndex = self.selectedIndex , row != selectedIndex {
             
-            let prevIndexPath = NSIndexPath(forRow: selectedIndex, inSection: 0)
+            let prevIndexPath = IndexPath(row: selectedIndex, section: 0)
             
-            tableView.cellForRowAtIndexPath(prevIndexPath)?.accessoryType = .None
+            tableView.cellForRow(at: prevIndexPath)?.accessoryType = .none
         }
         
         self.selectedIndex = row
-        tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .Checkmark
+        tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
     }
     
-    @IBAction func dismissAction(sender: UIBarButtonItem) {
+    @IBAction func dismissAction(_ sender: UIBarButtonItem) {
         
         if let index = self.selectedIndex {
             
             let delegate = self.delegate
             let currency = self.currencyList[index]
             
-            self.dismissViewControllerAnimated(true) {
+            self.dismiss(animated: true) {
                 
                 delegate?.selectionDidEnd(with: index, currency: currency)
             }
             
         } else {
             
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         }
     }
 }

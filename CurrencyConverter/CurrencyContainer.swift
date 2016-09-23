@@ -11,9 +11,9 @@ import Foundation
 /// класс, который отвечает за хранение списка валюты и конвертацию
 class CurrencyContainer: NSObject {
     
-    private var baseRate = Rate(currency: "", rate: 1)
-    private var rates: [String: Float] = [:]
-    private var sortedKeys: [String] = []
+    fileprivate var baseRate = Rate(currency: "", rate: 1)
+    fileprivate var rates: [String: Float] = [:]
+    fileprivate var sortedKeys: [String] = []
     
     init(baseCurrency: String, rates: [String: Float]) {
         
@@ -24,9 +24,9 @@ class CurrencyContainer: NSObject {
         self.privateInit(with: baseCurrency)
     }
     
-    private func privateInit(with baseCurrency: String) {
+    fileprivate func privateInit(with baseCurrency: String) {
     
-        if let baseCurrencyValue = self.rates.removeValueForKey(baseCurrency) {
+        if let baseCurrencyValue = self.rates.removeValue(forKey: baseCurrency) {
             
             self.baseRate = Rate(currency: baseCurrency, rate: baseCurrencyValue)
             
@@ -35,7 +35,7 @@ class CurrencyContainer: NSObject {
             self.baseRate = Rate(currency: baseCurrency, rate: 1)
         }
         
-        self.sortedKeys = self.rates.keys.sort()
+        self.sortedKeys = self.rates.keys.sorted()
     }
     
     var currencyList: [String] {
@@ -59,7 +59,7 @@ class CurrencyContainer: NSObject {
     
     @nonobjc func currencyValue(for currency: String, amount: Float) -> Float {
         
-        if let rate = self.rates[currency] where self.baseRate.rate != 0 {
+        if let rate = self.rates[currency] , self.baseRate.rate != 0 {
             
             return amount * rate / self.baseRate.rate
             

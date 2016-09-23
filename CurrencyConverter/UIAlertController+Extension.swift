@@ -14,10 +14,10 @@ extension UIAlertController {
     
     convenience init(title: String, cancelTitle: String) {
         
-        self.init(title: title, message: nil, preferredStyle: .Alert)
+        self.init(title: title, message: nil, preferredStyle: .alert)
         
         let cancelAction = UIAlertAction(title: cancelTitle,
-                                         style: .Cancel,
+                                         style: .cancel,
                                          handler: nil)
         
         self.addAction(cancelAction)
