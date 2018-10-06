@@ -9,30 +9,26 @@
 import Foundation
 
 /// строит из базовой строки и параметров NSURL
-class RequestBuilder: NSObject {
-    
-    var url: URL?
+class RequestBuilder {
+    let url: URL?
     
     init(string: String) {
-        
-        super.init()
-        
         self.url = URL(string: string)
     }
     
     func url(with parameters: [String: String?]) -> URL? {
-        
         guard let url = self.url else { return nil }
         
-        var queryItems: [URLQueryItem] = []
-        
-        for (name, value) in parameters {
-            
-            queryItems.append(URLQueryItem(name: name, value: value))
+        let queryItems = parameters.map { (elem) -> URLQueryItem in
+            URLQueryItem(name: elem.key, value: elem.value)
         }
         
         var components = URLComponents(url: url, resolvingAgainstBaseURL: true)
-        components?.queryItems = queryItems
+        if let items = components?.queryItems {
+            components?.queryItems = items + queryItems
+        } else {
+            components?.queryItems = queryItems
+        }
         
         return components?.url
     }

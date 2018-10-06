@@ -10,41 +10,28 @@ import Foundation
 
 /// скачивает из сети NSData и строит CurrencyContainer
 /// обрабатывает ошибки и выполняет блоки в главном потоке
-class CurrencyDataProvider: NSObject {
+class CurrencyDataProvider {
     
     class func GET(_ URLString: String,
                    parameters: [String: String?],
                    completionBlock: @escaping (_ currencyContainer: CurrencyContainer) -> Void,
-                   errorBlock: ((_ error: Error) -> Void)?) {
-        
-        NetDataProvider.GET(URLString,
-                            parameters: parameters,
-                            completionBlock: { (data: Data) in
-                                
+                   errorBlock: @escaping (_ error: Error) -> Void) {
+        NetDataProvider.GET(URLString, parameters: parameters,
+                            completionBlock: { (data) in
                                 do {
-                                    
-                                    let currencyContainer =
-                                        try CurrencyContainerBuilder.currencyContainer(with: data)
-                                    
+                                    let currencyContainer = try CurrencyContainerBuilder.currencyContainer(with: data)
                                     DispatchQueue.main.async(execute: {
-                                        
                                         completionBlock(currencyContainer)
                                     })
-                                    
                                 } catch let error as NSError {
-                                    
                                     DispatchQueue.main.async(execute: {
-                                        
-                                        errorBlock?(error)
+                                        errorBlock(error)
                                     })
                                 }
-                                
-        }) { (error: Error) in
-                
-                DispatchQueue.main.async(execute: {
-                    
-                    errorBlock?(error)
-                })
-        }
+        }, errorBlock: { (error: Error) in
+            DispatchQueue.main.async(execute: {
+                errorBlock(error)
+            })
+        })
     }
 }

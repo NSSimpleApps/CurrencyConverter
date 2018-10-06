@@ -12,25 +12,13 @@ private let BaseKey = "base"
 private let RatesKey = "rates"
 
 /// строит из NSData объект класса CurrencyContainer
-class CurrencyContainerBuilder: NSObject {
-    
+class CurrencyContainerBuilder {
+    struct Info: Decodable {
+        let base: String
+        let rates: [String: Float]
+    }
     class func currencyContainer(with data: Data) throws -> CurrencyContainer {
-        
-        if let dict =
-        try JSONSerialization.jsonObject(with: data,
-                                                   options: .allowFragments) as? [String : AnyObject] {
-            
-            if let baseCurrency = dict[BaseKey] as? String, let rates = dict[RatesKey] as? [String: Float] {
-                
-                return CurrencyContainer(baseCurrency: baseCurrency, rates: rates)
-                
-            } else {
-                
-                throw NSError(domain: "DOMAIN",
-                              code: 999,
-                              userInfo: [NSLocalizedDescriptionKey: "Invalid json"])
-            }
-        }
-        return CurrencyContainer(baseCurrency: "", rates: [:])
+        let info = try JSONDecoder().decode(Info.self, from: data)
+        return CurrencyContainer(baseCurrency: info.base, rates: info.rates)
     }
 }
