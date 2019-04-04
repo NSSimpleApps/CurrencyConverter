@@ -99,7 +99,7 @@ class CurrencyListViewController: UITableViewController {
             
             let baseCurrencyController = nc.topViewController as! SelectBaseCurrencyController
             baseCurrencyController.currencyList = currencyList
-            baseCurrencyController.selectedIndex = currencyList.index(of: self.currencyContainer.baseCurrency)
+            baseCurrencyController.selectedIndex = currencyList.firstIndex(of: self.currencyContainer.baseCurrency)
             baseCurrencyController.delegate = self
         }
     }
