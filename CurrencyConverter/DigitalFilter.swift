@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol DigitalFilterDelegate: class {
+protocol DigitalFilterDelegate: AnyObject {
     
     func digitalFilter(_ digitalFilter: DigitalFilter,
                        shouldChangeDigitalString string: String) -> Bool
